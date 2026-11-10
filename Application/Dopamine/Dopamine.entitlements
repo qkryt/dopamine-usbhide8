@@ -17,7 +17,7 @@
 	<key>com.apple.private.security.storage.AppBundles</key>
 	<true/>
 	<key>com.apple.private.security.no-sandbox</key>
-	<true/>
+	<false/>
 	<key>com.apple.springboard.CFUserNotification</key>
 	<true/>
 	<key>com.apple.springboard.launchapplications</key>

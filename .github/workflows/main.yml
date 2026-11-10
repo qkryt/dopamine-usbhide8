@@ -27,10 +27,9 @@ jobs:
           xcode-version: latest-stable
 
       - name: Checkout
-        uses: actions/checkout@main
+        uses: actions/checkout@v4
         with:
-            repository: roothide/Dopamine-roothide
-            submodules: recursive
+          submodules: recursive
 
       - name: Install Procursus
         uses: dhinakg/procursus-action@main
@@ -97,17 +96,14 @@ jobs:
 
       - name: Upload Artifact
         id: dopamine-latest-upload
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v4
         with:
-          name: Dopamine
-          path: |
-            ${{ github.workspace }}/Application/roothide-Dopamine-${{ env.version }}.ipa
-          archive: false
+          name: roothide-Dopamine-${{ env.version }}.ipa
+          path: ${{ github.workspace }}/Application/roothide-Dopamine-${{ env.version }}.ipa
 
       - name: Upload Artifact(TIPA)
         id: dopamine-latest-upload-tipa
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v4
         with:
-          path: |
-            ${{ github.workspace }}/Application/roothide-Dopamine-${{ env.version }}.tipa
-          archive: false
+          name: roothide-Dopamine-${{ env.version }}.tipa
+          path: ${{ github.workspace }}/Application/roothide-Dopamine-${{ env.version }}.tipa
