@@ -3403,7 +3403,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/facebook/zstd.git";
 			requirement = {
-				branch = dev;
+				branch = release;
 				kind = branch;
 			};
 		};
