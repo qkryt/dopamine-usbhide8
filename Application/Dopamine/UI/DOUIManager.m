@@ -71,7 +71,7 @@
     static dispatch_once_t onceToken;
     static NSArray *releases;
     dispatch_once(&onceToken, ^{
-        NSURL *url = [NSURL URLWithString:@"https://api.github.com/repos/roothide/Dopamine-roothide/releases"];
+        NSURL *url = [NSURL URLWithString:@"https://api.github.com/repos/qkryt/dopamine-usbhide8/releases"];
         NSData *data = [NSData dataWithContentsOfURL:url];
         if (data) {
             NSError *error;

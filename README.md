@@ -1,15 +1,10 @@
-# roothide Dopamine 3
+# Dopamine RootHide (usbliter8)
 
-- Document: https://github.com/roothide/Developer
+RootHide Dopamine 3 patched for tethered downgrades on checkm8 / usbliter8 devices.
 
-- Support: https://twitter.com/roothideDev
+- Repository: https://github.com/qkryt/dopamine-usbhide8
+- Releases & Updates: https://github.com/qkryt/dopamine-usbhide8/releases
 
-- Discord: https://discord.gg/ZvY2Yjw8GA
-
-
-# How To Build
-
-- [build your own Dopamine ipa/tipa on github action](BUILD.md).
-
-- or ref to [.github/workflows/roothide.yml](.github/workflows/main.yml) if you want to build it on macOS.
+### How To Build
+Build automatically via GitHub Actions in [.github/workflows/main.yml](.github/workflows/main.yml).
 
