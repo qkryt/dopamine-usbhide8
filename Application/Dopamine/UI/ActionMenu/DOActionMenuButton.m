@@ -12,7 +12,7 @@
     UIView *_separator;
 }
 
-@property (nonatomic) UIImpactFeedbackGenerator *feedbackGenerator;
+@property (nonatomic, nullable) UIImpactFeedbackGenerator *feedbackGenerator;
 
 @end
 
@@ -41,15 +41,13 @@
         ]];
     }
 
-    button.feedbackGenerator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
-    [button addTarget:button action:@selector(buttonPressed) forControlEvents:UIControlEventTouchUpInside];
+    button.feedbackGenerator = nil;
 
     return button;
 }
 
 -(void)buttonPressed
 {
-    [self.feedbackGenerator impactOccurred];
 }
 
 -(void)setBottomSeparator:(BOOL)bottomSeparator

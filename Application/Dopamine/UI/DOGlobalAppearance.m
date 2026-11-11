@@ -25,45 +25,52 @@
 
     // IN DARK MODE, APPLE JUST ADDS WHITE WHEN A BUTTON IS HIGHLIGHTED WHEN IT'S SET UP VIA UIButtonConfiguration
     // UNFORTUNATELY THEY FORGOT ABOUT THE POSSIBILITY ABOUT THERE BEING A WHITE BUTTON, SO THOSE JUST DON'T SHOW ANY HIGHLIGHT COLOR
-    // HACKY WORKAROUND TO FIX FIX THIS MESS; SCREW APPLE
+    // HACKY WORKAROUND TO FIX THIS MESS; SCREW APPLE
     configuration.titleTextAttributesTransformer = ^NSDictionary<NSAttributedStringKey,id> * _Nonnull(NSDictionary<NSAttributedStringKey,id> * _Nonnull textAttributes) {
-        // Something makes me think the person that developed this API never actually used it...
-        // OR ELSE WHERE IS MY BUTTON REFERENCE TO KNOW WHAT STATE I'M EVEN DEALING WITH???
-        // THIS IS A SUPER HACKY WAY OF DETERMINING WHETHER THE BUTTON IS HIGHLIGHTED OR NOT
-        // WHEN IT'S HIGHLIGHTED THE COLOR WILL BE IN UIExtendedSRGBColorSpace
-        // WHEN NOT HIGHLIGHTED IT WILL BE IN UIExtendedGrayColorSpace
-        // WHEN NOT IN DARK MODE IT WILL ALREADY BE WHAT WE WANT, JUST SKIP
-        NSMutableDictionary<NSAttributedStringKey,id> *textAttributesM = textAttributes.mutableCopy;
-        UIColor *foregroundColor = textAttributes[NSForegroundColorAttributeName];
-        CGFloat alpha, white;
-        [foregroundColor getWhite:&white alpha:&alpha];
-        if ((int)white == 1 && (int)alpha == 1) {
-            CGColorSpaceRef colorSpace = CGColorGetColorSpace(foregroundColor.CGColor);
-            CGColorSpaceModel model = CGColorSpaceGetModel(colorSpace);
-            if (model == kCGColorSpaceModelRGB) {
-                textAttributesM[NSForegroundColorAttributeName] = [[UIColor whiteColor] colorWithAlphaComponent:0.75];
+        @try {
+            NSMutableDictionary<NSAttributedStringKey,id> *textAttributesM = textAttributes ? textAttributes.mutableCopy : [NSMutableDictionary new];
+            UIColor *foregroundColor = textAttributes[NSForegroundColorAttributeName];
+            if (foregroundColor && [foregroundColor isKindOfClass:[UIColor class]]) {
+                CGFloat alpha = 0.0, white = 0.0;
+                if ([foregroundColor getWhite:&white alpha:&alpha]) {
+                    if ((int)white == 1 && (int)alpha == 1) {
+                        CGColorRef cgColor = foregroundColor.CGColor;
+                        if (cgColor) {
+                            CGColorSpaceRef colorSpace = CGColorGetColorSpace(cgColor);
+                            if (colorSpace && CGColorSpaceGetModel(colorSpace) == kCGColorSpaceModelRGB) {
+                                textAttributesM[NSForegroundColorAttributeName] = [[UIColor whiteColor] colorWithAlphaComponent:0.75];
+                            }
+                        }
+                    }
+                }
             }
+            return textAttributesM;
         }
-        // textAttributesM[NSFontAttributeName] = [UIFont systemFontOfSize:16 weight:UIFontWeightMedium];
-        return textAttributesM;
+        @catch (NSException *exception) {
+            return textAttributes;
+        }
     };
     configuration.imageColorTransformer = ^UIColor * _Nonnull(UIColor * _Nonnull color) {
-        // Something makes me think the person that developed this API never actually used it...
-        // OR ELSE WHERE IS MY BUTTON REFERENCE TO KNOW WHAT STATE I'M EVEN DEALING WITH???
-        // THIS IS A SUPER HACKY WAY OF DETERMINING WHETHER THE BUTTON IS HIGHLIGHTED OR NOT
-        // WHEN IT'S HIGHLIGHTED THE COLOR WILL BE IN UIExtendedSRGBColorSpace
-        // WHEN NOT HIGHLIGHTED IT WILL BE IN UIExtendedGrayColorSpace
-        // WHEN NOT IN DARK MODE IT WILL ALREADY BE WHAT WE WANT, JUST SKIP
-        CGFloat alpha, white;
-        [color getWhite:&white alpha:&alpha];
-        if ((int)white == 1 && (int)alpha == 1) {
-            CGColorSpaceRef colorSpace = CGColorGetColorSpace(color.CGColor);
-            CGColorSpaceModel model = CGColorSpaceGetModel(colorSpace);
-            if (model == kCGColorSpaceModelRGB) {
-                return [color colorWithAlphaComponent:0.75];
+        @try {
+            if (color && [color isKindOfClass:[UIColor class]]) {
+                CGFloat alpha = 0.0, white = 0.0;
+                if ([color getWhite:&white alpha:&alpha]) {
+                    if ((int)white == 1 && (int)alpha == 1) {
+                        CGColorRef cgColor = color.CGColor;
+                        if (cgColor) {
+                            CGColorSpaceRef colorSpace = CGColorGetColorSpace(cgColor);
+                            if (colorSpace && CGColorSpaceGetModel(colorSpace) == kCGColorSpaceModelRGB) {
+                                return [color colorWithAlphaComponent:0.75];
+                            }
+                        }
+                    }
+                }
             }
+            return color;
         }
-        return color;
+        @catch (NSException *exception) {
+            return color;
+        }
     };
     
     return configuration;

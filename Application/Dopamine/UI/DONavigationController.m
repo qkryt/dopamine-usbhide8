@@ -104,7 +104,10 @@
 
 -(CGRect)_frameForViewController:(id)viewController
 {
-    CGRect orig = [super _frameForViewController: viewController];
+    CGRect orig = self.view.bounds;
+    if ([UINavigationController instancesRespondToSelector:@selector(_frameForViewController:)]) {
+        orig = [super _frameForViewController: viewController];
+    }
     if ([[viewController class] isEqual: [DOMainViewController class]])
         return orig;
     

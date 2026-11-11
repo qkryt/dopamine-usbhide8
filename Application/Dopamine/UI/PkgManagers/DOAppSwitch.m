@@ -87,7 +87,10 @@
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
-    [self.hapticGenerator impactOccurred];
+    @try {
+        [self.hapticGenerator impactOccurred];
+    }
+    @catch (NSException *e) {}
     self.iconView.alpha = 0.75;
 }
 

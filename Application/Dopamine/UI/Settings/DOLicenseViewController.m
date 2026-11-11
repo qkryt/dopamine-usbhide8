@@ -185,7 +185,10 @@
 {
     NSInteger index = [self.scrollView.subviews indexOfObject:sender];
     self.selectedLicense = (int)index;
-    [self.impactGenerator impactOccurred];
+    @try {
+        [self.impactGenerator impactOccurred];
+    }
+    @catch (NSException *e) {}
 }
 
 

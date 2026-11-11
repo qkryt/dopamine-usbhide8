@@ -74,7 +74,10 @@
         self.transform = CGAffineTransformMakeTranslation(0, 0);
     }];
 
-    [self.feedbackGenerator impactOccurred];
+    @try {
+        [self.feedbackGenerator impactOccurred];
+    }
+    @catch (NSException *e) {}
 }
 
 - (void)setCompleted {
@@ -88,7 +91,10 @@
 - (void)setSuccess {
     [self completeWithImage:self.successImage];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [self.feedbackGenerator impactOccurredWithIntensity:1];
+        @try {
+            [self.feedbackGenerator impactOccurredWithIntensity:1];
+        }
+        @catch (NSException *e) {}
     });
 }
 
